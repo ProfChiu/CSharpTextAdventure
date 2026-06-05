@@ -1,19 +1,18 @@
-using CSharpTextAdventure.Characters;
-using CSharpTextAdventure.UI;
-using CSharpTextAdventure.World;
+using Phase3.Characters;
+using Phase3.UI;
+using Phase3.World;
 
-namespace CSharpTextAdventure.Game;
+namespace Phase3.Game;
 
 class Game
 {
     private Player _player;
     private Parser _parser;
-    private Room _startingRoom;
 
     public Game()
     {
-        _startingRoom = WorldBuilder.Build();
-        _player = new Player(_startingRoom);
+        Room startingRoom = WorldBuilder.Build();
+        _player = new Player(startingRoom);
         _parser = new Parser();
     }
 

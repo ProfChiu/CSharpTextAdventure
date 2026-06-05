@@ -1,6 +1,6 @@
-using CSharpTextAdventure.Items;
+using Phase3.Items;
 
-namespace CSharpTextAdventure.Characters;
+namespace Phase3.Characters;
 
 class Inventory
 {

@@ -1,21 +1,23 @@
-using CSharpTextAdventure.Items;
+using Phase3.Items;
 
-namespace CSharpTextAdventure.World;
+namespace Phase3.World;
 
 class Room
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string Name          { get; set; }
+    public string Description   { get; set; }
+    public string Art           { get; set; }
     public Dictionary<string, Exit> Exits { get; set; }
-    public List<Item> Items { get; set; }
-    public bool HasBeenVisited { get; set; }
+    public List<Item> Items     { get; set; }
+    public bool HasBeenVisited  { get; set; }
 
-    public Room(string name, string description)
+    public Room(string name, string description, string art = "")
     {
-        Name = name;
-        Description = description;
-        Exits = new Dictionary<string, Exit>();
-        Items = new List<Item>();
+        Name           = name;
+        Description    = description;
+        Art            = art;
+        Exits          = new Dictionary<string, Exit>();
+        Items          = new List<Item>();
         HasBeenVisited = false;
     }
 
