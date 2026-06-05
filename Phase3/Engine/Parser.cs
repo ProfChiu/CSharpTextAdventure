@@ -1,7 +1,7 @@
 using Phase3.Characters;
 using Phase3.UI;
 
-namespace Phase3.Game;
+namespace Phase3.Engine;
 
 class Parser
 {

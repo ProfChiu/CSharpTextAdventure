@@ -2,7 +2,7 @@ using Phase3.Characters;
 using Phase3.UI;
 using Phase3.World;
 
-namespace Phase3.Game;
+namespace Phase3.Engine;
 
 class Game
 {

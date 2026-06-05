@@ -3,7 +3,7 @@ using Phase3.Items;
 using Phase3.UI;
 using Phase3.World;
 
-namespace Phase3.Game;
+namespace Phase3.Engine;
 
 static class Actions
 {
