@@ -139,26 +139,39 @@ class Parser {
 
 ## World Map
 
+Three locations only — keeps the scope minimal and the win achievable in a few moves.
+
 ```
-[OUTER GATE]
+[COURTYARD]  <-- start and finish here
       | south
       v
-[COURTYARD] ---east---> [STABLES]  <-- Brass Key is here
+[TRADE HALL]  <-- puzzle: find the hidden key
       | south
       v
-[TRADE HALL] ---east---> [MERCHANT'S VAULT]  <-- WIN
-             (locked: requires Brass Key)
+[MERCHANT'S VAULT]  <-- retrieve the Polo Satchel, then return north to win
 ```
 
-**Win condition:** The player finds the Brass Key in the Stables, unlocks the east door of the Trade Hall, enters the Merchant's Vault, and takes or examines the Polo Satchel.
+**Win flow:**
+1. Start in the Courtyard (outside).
+2. Go south into the Trade Hall.
+3. Examine the loose brick to find the hidden Brass Key (simple puzzle).
+4. Take the Brass Key, then go south — the vault door unlocks automatically when the player carries the key.
+5. Take the Polo Satchel from the vault.
+6. Return north twice to the Courtyard — arriving back outside with the satchel ends the game.
 
 ### Room Descriptions
 
-- **Outer Gate** — Crumbling mudbrick archway; the northern entrance to the compound. No items.
-- **Courtyard** — Wide stone square with a dry fountain. Contains a Worn Map (takeable) and Copper Coins (takeable, flavor only).
-- **Stables** — Dark, hay-scented. Contains a Saddle Bag (examine only) and the Brass Key (takeable).
-- **Trade Hall** — Long vaulted hall with overturned tables. Contains a Clay Lamp (flavor). East exit is locked.
-- **Merchant's Vault** — Cedar shelves, bolts of silk. Contains the Polo Satchel — taking or examining it triggers the win.
+- **Courtyard** — A dusty open square under a darkening sky. The caravanserai entrance is to the north, and a heavy door leads south into the building. This is where the journey starts and ends.
+  - Items: none
+  - Exits: south → Trade Hall
+
+- **Trade Hall** — A long vaulted hall lit by a single oil lamp. Overturned tables and scattered pottery litter the floor. One section of the wall looks slightly different — a loose brick that doesn't quite match the others.
+  - Items: Loose Brick (examine reveals the Brass Key hidden behind it), Brass Key (takeable, appears after examining brick)
+  - Exits: north → Courtyard, south → Merchant's Vault (requires Brass Key in inventory)
+
+- **Merchant's Vault** — A small cedar-shelved chamber, surprisingly intact. On a low table sits a leather satchel stamped with the Polo family crest — your missing documents.
+  - Items: Polo Satchel (takeable — triggers win when player returns to Courtyard with it)
+  - Exits: north → Trade Hall
 
 ---
 
