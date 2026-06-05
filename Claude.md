@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a **teaching project** for an introductory/intermediate C# course. The goal is to demonstrate core object-oriented programming concepts — primarily **classes and objects** (fields, properties, constructors, methods) — through a small, readable, fully working game. Code simplicity and clarity take priority over architectural sophistication.
+This is a **teaching project** for an introductory/intermediate C# course. The goal is to demonstrate core object-oriented programming concepts through a small, fully working game that students can play and read side by side. Code simplicity and clarity take priority over architectural sophistication.
 
 ---
 
@@ -16,179 +16,98 @@ There is no combat. Tension comes from exploration, finding items, and unlocking
 
 ---
 
-## Project Structure
+## Phased Learning Structure
+
+The project has three chapters that all live in the same repo and compile together as one program. At startup the player picks a chapter. Students can compare source code across chapters to see exactly what was added.
 
 ```
-CSharpTextAdventure/
-  CSharpTextAdventure.csproj
-  Program.cs              -- Entry point: creates Game and calls Run()
+dotnet run
+→ Choose a chapter: 1, 2, or 3
+```
 
+### Chapter 1 — Rooms & Movement  (`Phase1/`, ~110 lines, 4 files)
+
+**Concepts taught:** classes, properties, constructors, object references (Room? holding a Room), while loop, if/else, null checks, method decomposition.
+
+```
+Phase1/
+  Room.cs      — Name, Description, Art, North/South/East/West? properties
+  Player.cs    — CurrentRoom property only
+  Game.cs      — GameRunner.Start() wires the world; Game class has Run/HandleInput/TryMove/PrintRoom
+```
+
+### Chapter 2 — Items & Inventory  (`Phase2/`, ~210 lines, 5 files)
+
+**Concepts taught:** `List<T>`, `foreach`, using a bool flag inside a loop, conditionals guarding state transitions, win condition.
+
+```
+Phase2/
+  Room.cs      — Phase 1 Room + List<Item> Items
+  Player.cs    — Phase 1 Player + List<Item> Inventory
+  Item.cs      — Name only (simplest class)
+  Game.cs      — Phase 1 Game + TakeItem/DropItem/ShowInventory/locked-door check
+```
+
+The locked-door check (Trade Hall → Vault requires "Brass Key") is intentionally hard-coded by room name. "What if there were 20 locked doors?" is the Chapter 3 lesson.
+
+### Chapter 3 — Full Adventure  (`Phase3/`, 11 files, full architecture)
+
+**Concepts taught:** inheritance (`KeyItem : Item`), static helper classes, `Dictionary<string, T>`, LINQ, separation of concerns across multiple files and namespaces.
+
+```
+Phase3/
+  GameRunner.cs
   Game/
-    Game.cs               -- Main game loop: reads input, calls Parser, updates state
-    Parser.cs             -- Splits input, uses a switch to call the right action
-
+    Game.cs    — main loop
+    Parser.cs  — switch dispatch
+    Actions.cs — static action handlers
   World/
-    Room.cs               -- Class: Name, Description, Exits (Dictionary), Items (List)
-    Exit.cs               -- Class: Destination room, IsLocked, RequiredKey
-    WorldBuilder.cs       -- Creates and connects all rooms; returns the starting room
-
-  Items/
-    Item.cs               -- Class: Name, Description, CanPickUp
-    KeyItem.cs            -- Subclass of Item; adds UnlocksExitId property
-
+    Room.cs, Exit.cs, WorldBuilder.cs
   Characters/
-    Player.cs             -- Class: CurrentRoom, Inventory, VisitedRooms
-    Inventory.cs          -- Class: holds List<Item>, has Add/Remove/Find/Display methods
-
+    Player.cs, Inventory.cs
+  Items/
+    Item.cs, KeyItem.cs
   UI/
-    Display.cs            -- All Console.Write calls go here (one place to change output)
+    Display.cs
 ```
 
 ---
 
-## Key Classes
+## ASCII Art
 
-### Item
-```csharp
-class Item {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public bool CanPickUp { get; set; }
-
-    public Item(string name, string description, bool canPickUp) { ... }
-}
-```
-
-### KeyItem (inherits from Item)
-```csharp
-class KeyItem : Item {
-    public string UnlocksExitId { get; set; }
-
-    public KeyItem(string name, string description, string unlocksExitId)
-        : base(name, description, canPickUp: true) { ... }
-}
-```
-
-### Room
-```csharp
-class Room {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public Dictionary<string, Exit> Exits { get; set; }
-    public List<Item> Items { get; set; }
-    public bool HasBeenVisited { get; set; }
-
-    public Room(string name, string description) { ... }
-    public void AddExit(string direction, Exit exit) { ... }
-    public void AddItem(Item item) { ... }
-    public string GetExitsList() { ... }
-}
-```
-
-### Player
-```csharp
-class Player {
-    public Room CurrentRoom { get; set; }
-    public Inventory Inventory { get; set; }
-    public List<string> VisitedRooms { get; set; }
-
-    public Player(Room startingRoom) { ... }
-    public void MoveTo(Room room) { ... }
-    public bool HasVisited(Room room) { ... }
-}
-```
-
-### Parser (simple switch — no interface needed)
-```csharp
-class Parser {
-    public void Parse(string input, Player player) {
-        string[] words = input.ToLower().Trim().Split(' ');
-        string verb = words[0];
-        string noun = words.Length > 1 ? words[1] : "";
-
-        switch (verb) {
-            case "go": case "n": case "s": case "e": case "w":
-                Actions.Go(noun, player); break;
-            case "take": case "get":
-                Actions.Take(noun, player); break;
-            case "look": case "l":
-                Actions.Look(player); break;
-            // ...
-        }
-    }
-}
-```
+Every `Room` has an `Art` property (string) that is printed before the room description when the player enters. Art is a 5-line ASCII scene representing a prop or landmark in the room. Students can replace the art as a creative exercise.
 
 ---
 
-## Commands
-
-| Input | Aliases | Action |
-|---|---|---|
-| `go <direction>` | `n`, `s`, `e`, `w` | Move to adjacent room |
-| `look` | `l` | Describe current room |
-| `examine <item>` | `x` | Show item description |
-| `take <item>` | `get` | Pick up item into inventory |
-| `drop <item>` | | Drop item into current room |
-| `inventory` | `i`, `inv` | List carried items |
-| `unlock <direction>` | | Unlock an exit using a key in inventory |
-| `help` | `?` | Show command list |
-| `quit` | `exit`, `q` | Exit the game |
-
----
-
-## World Map
-
-Three locations only — keeps the scope minimal and the win achievable in a few moves.
+## World Map (same in all chapters)
 
 ```
 [COURTYARD]  <-- start and finish here
       | south
       v
-[TRADE HALL]  <-- puzzle: find the hidden key
-      | south
+[TRADE HALL]  <-- Chapter 2+: find the Brass Key
+      | south (locked in Chapter 2+)
       v
 [MERCHANT'S VAULT]  <-- retrieve the Polo Satchel, then return north to win
 ```
 
-**Win flow:**
-1. Start in the Courtyard (outside).
-2. Go south into the Trade Hall.
-3. Examine the loose brick to find the hidden Brass Key (simple puzzle).
-4. Take the Brass Key, then go south — the vault door unlocks automatically when the player carries the key.
-5. Take the Polo Satchel from the vault.
-6. Return north twice to the Courtyard — arriving back outside with the satchel ends the game.
-
-### Room Descriptions
-
-- **Courtyard** — A dusty open square under a darkening sky. The caravanserai entrance is to the north, and a heavy door leads south into the building. This is where the journey starts and ends.
-  - Items: none
-  - Exits: south → Trade Hall
-
-- **Trade Hall** — A long vaulted hall lit by a single oil lamp. Overturned tables and scattered pottery litter the floor. One section of the wall looks slightly different — a loose brick that doesn't quite match the others.
-  - Items: Loose Brick (examine reveals the Brass Key hidden behind it), Brass Key (takeable, appears after examining brick)
-  - Exits: north → Courtyard, south → Merchant's Vault (requires Brass Key in inventory)
-
-- **Merchant's Vault** — A small cedar-shelved chamber, surprisingly intact. On a low table sits a leather satchel stamped with the Polo family crest — your missing documents.
-  - Items: Polo Satchel (takeable — triggers win when player returns to Courtyard with it)
-  - Exits: north → Trade Hall
+**Win flow (Chapter 2 & 3):**
+1. Go south into the Trade Hall.
+2. Pick up the Brass Key.
+3. Go south — vault door requires the key.
+4. Take the Polo Satchel from the vault.
+5. Return north twice to the Courtyard — win!
 
 ---
 
 ## Build & Run
 
 ```bash
-# Initialize project (first time only)
-dotnet new console -n CSharpTextAdventure --output .
-
-# Build
 dotnet build
-
-# Run
 dotnet run
 ```
 
-Add to `<PropertyGroup>` in `CSharpTextAdventure.csproj`:
+Project requires:
 ```xml
 <Nullable>enable</Nullable>
 <ImplicitUsings>enable</ImplicitUsings>
@@ -197,23 +116,11 @@ Add to `<PropertyGroup>` in `CSharpTextAdventure.csproj`:
 
 ---
 
-## Implementation Order
-
-1. `Item.cs` + `KeyItem.cs` — simplest classes, good first lesson on properties and constructors
-2. `Room.cs` + `Exit.cs` — classes that use collections (List, Dictionary) as properties
-3. `Player.cs` + `Inventory.cs` — classes that reference other classes
-4. `WorldBuilder.cs` — demonstrates constructing and wiring objects together
-5. `Display.cs` — console output helpers
-6. `Parser.cs` — string parsing and switch dispatch
-7. `Game.cs` — the main game loop
-8. `Program.cs` — entry point (just a few lines)
-
----
-
 ## Teaching Guidelines
 
-- Each class should fit on one screen (~50 lines max) so students can read it in full
-- Use explicit `public string Name { get; set; }` properties — not bare fields — to show the pattern
-- `WorldBuilder.cs` is the best place to show how object instances reference each other
-- `KeyItem : Item` demonstrates inheritance in a concrete, memorable context
+- Each chapter's folder is self-contained — students study one folder at a time
+- `GameRunner.Start()` in each chapter is the "wiring" method — best place to show how objects connect
+- Phase 1 Room is the first class students read — keep it under 20 lines with no imports
 - Comments should explain *why* something is done, not restate what the code already says
+- Students compare Phase 1 vs Phase 2 gameplay to motivate learning `List<T>` and `foreach`
+- Chapter 3's `WorldBuilder.cs` demonstrates the difference between hard-coding and a general mechanism
