@@ -1,17 +1,17 @@
-using CSharpTextAdventure.World;
+using Phase3.World;
 
-namespace CSharpTextAdventure.Characters;
+namespace Phase3.Characters;
 
 class Player
 {
-    public Room CurrentRoom { get; set; }
-    public Inventory Inventory { get; set; }
+    public Room      CurrentRoom  { get; set; }
+    public Inventory Inventory    { get; set; }
     public List<string> VisitedRooms { get; set; }
 
     public Player(Room startingRoom)
     {
-        CurrentRoom = startingRoom;
-        Inventory = new Inventory();
+        CurrentRoom  = startingRoom;
+        Inventory    = new Inventory();
         VisitedRooms = new List<string>();
     }
 

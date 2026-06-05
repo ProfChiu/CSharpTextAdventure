@@ -1,7 +1,7 @@
-using CSharpTextAdventure.Characters;
-using CSharpTextAdventure.World;
+using Phase3.Characters;
+using Phase3.World;
 
-namespace CSharpTextAdventure.UI;
+namespace Phase3.UI;
 
 static class Display
 {
@@ -19,6 +19,7 @@ static class Display
     public static void Room(Room room)
     {
         Console.WriteLine();
+        if (room.Art != "") Console.WriteLine(room.Art);
         Console.WriteLine($"[ {room.Name.ToUpper()} ]");
         Console.WriteLine(room.Description);
 

@@ -1,4 +1,4 @@
-namespace CSharpTextAdventure.World;
+namespace Phase3.World;
 
 class Exit
 {
@@ -11,7 +11,7 @@ class Exit
     public Exit(Room destination, bool isLocked = false, string? requiredKey = null)
     {
         Destination = destination;
-        IsLocked = isLocked;
+        IsLocked    = isLocked;
         RequiredKey = requiredKey;
     }
 }

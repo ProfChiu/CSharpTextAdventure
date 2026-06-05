@@ -1,7 +1,7 @@
-using CSharpTextAdventure.Characters;
-using CSharpTextAdventure.UI;
+using Phase3.Characters;
+using Phase3.UI;
 
-namespace CSharpTextAdventure.Game;
+namespace Phase3.Game;
 
 class Parser
 {

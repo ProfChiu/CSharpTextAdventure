@@ -1,6 +1,6 @@
-using CSharpTextAdventure.Items;
+using Phase3.Items;
 
-namespace CSharpTextAdventure.World;
+namespace Phase3.World;
 
 static class WorldBuilder
 {
@@ -11,20 +11,23 @@ static class WorldBuilder
             "Courtyard",
             "A dusty open square under a darkening sky. The caravanserai walls loom around you. " +
             "A heavy wooden door leads south into the building. This is where your journey starts — " +
-            "and where it must end before dawn."
+            "and where it must end before dawn.",
+            "     ___\n    /   \\\n   (  ~  )\n    \\___/\n  __|   |__"
         );
 
         var tradeHall = new Room(
             "Trade Hall",
             "A long vaulted hall lit by a single oil lamp. Overturned tables and scattered pottery " +
             "litter the floor. One section of the wall looks slightly different — " +
-            "a loose brick that doesn't quite match the others."
+            "a loose brick that doesn't quite match the others.",
+            "      |\n    .----.\n    | ** |\n    '----'\n      |"
         );
 
         var vault = new Room(
             "Merchant's Vault",
             "A small cedar-shelved chamber, surprisingly intact. On a low table sits a leather " +
-            "satchel stamped with the Polo family crest — your missing documents."
+            "satchel stamped with the Polo family crest — your missing documents.",
+            "  .-------.\n  |[lock] |\n  |_______|\n  |  $ $  |\n  `-------'"
         );
 
         // --- Items ---
@@ -61,8 +64,8 @@ static class WorldBuilder
         // Store the brass key on the brick so the examine action can surface it.
         looseBrick.Description =
             "You pry the brick loose. Hidden in the gap behind it is a Brass Key!";
-        tradeHall.AddItem(brassKey);     // placed but revealed only after examining brick
-        brassKey.CanPickUp = false;      // hidden until brick is examined
+        tradeHall.AddItem(brassKey);    // placed but revealed only after examining brick
+        brassKey.CanPickUp = false;     // hidden until brick is examined
 
         return courtyard;
     }

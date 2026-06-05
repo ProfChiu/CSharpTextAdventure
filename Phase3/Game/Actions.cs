@@ -1,9 +1,9 @@
-using CSharpTextAdventure.Characters;
-using CSharpTextAdventure.Items;
-using CSharpTextAdventure.UI;
-using CSharpTextAdventure.World;
+using Phase3.Characters;
+using Phase3.Items;
+using Phase3.UI;
+using Phase3.World;
 
-namespace CSharpTextAdventure.Game;
+namespace Phase3.Game;
 
 static class Actions
 {
@@ -140,7 +140,7 @@ static class Actions
 
     // --- helpers ---
 
-    private static Item? FindItem(string noun, World.Room room)
+    private static Item? FindItem(string noun, Room room)
     {
         return room.Items.FirstOrDefault(i => i.Name.Contains(noun, StringComparison.OrdinalIgnoreCase));
     }
