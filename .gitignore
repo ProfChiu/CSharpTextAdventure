@@ -8,3 +8,7 @@
 .AppleDouble
 .LSOverride
 Icon
+
+# C# / .NET build output
+bin/
+obj/
