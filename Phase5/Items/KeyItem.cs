@@ -1,4 +1,4 @@
-namespace Phase3.Items;
+namespace Phase5.Items;
 
 // A key item unlocks a specific exit when the player carries it.
 class KeyItem : Item
