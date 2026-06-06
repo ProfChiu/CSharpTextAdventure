@@ -149,6 +149,65 @@ Project requires:
 <LangVersion>latest</LangVersion>
 ```
 
+### Chapter 6 — The Dungeon Map (`Phase6/`)
+
+The apprentice descends into buried Silk Road ruins beneath the caravan camp.
+
+**Concepts:** `Tile[,]` 2D arrays, `Position` record struct, console render loop, scene-based map loading.
+
+```
+Phase6/   (flat folder, single namespace)
+  GameRunner.cs
+  Tile.cs       — enum: Floor, Wall, Door, ExitDown, ExitUp
+  Position.cs   — record struct (X, Y)
+  Scene.cs      — holds Tile[,] grid + player start position
+  Player.cs     — Position, HP, basic stats
+  Renderer.cs   — draws stat panel + dungeon map to console
+  Game.cs       — input loop, move player, scene transition
+```
+
+One hardcoded dungeon scene (3–5 rooms). Player `@` moves with arrow/WASD keys. Stat panel on
+the left (Angband-style). No monsters or items yet. Stepping on `>` loads the next hardcoded
+scene. See `docs/ROGUELIKE_DESIGN.md` for the full map layout and scene system.
+
+### Chapter 7 — Monsters & Combat (`Phase7/`)
+
+**Concepts:** Abstract `Entity` base class, `virtual` methods, turn-based game loop.
+
+- Monsters with AI (wander → chase when player is in sight)
+- Bump into monster tile to attack (dice roll: ATK vs DEF)
+- HP system; death restarts player at dungeon entrance with full HP
+- Monster roster: Sand Jackal, Silk Phantom (floors 1–2)
+
+### Chapter 8 — Items & Equipment (`Phase8/`)
+
+**Concepts:** `IUsable` interface, `is` / `as` type checks, equipment slots.
+
+- Weapons (+ATK), Armour (+AC/DEF), Consumables (Healing Draught, Oil Flask)
+- Pick up `g`, equip `e`, use `u` — one weapon slot, one armour slot
+- Items spawn in rooms and drop from monsters
+
+### Chapter 9 — Procedural Dungeons (`Phase9/`)
+
+**Concepts:** `Random` class, BSP room-placement algorithm, depth scaling.
+
+- Scenes generated at runtime (random room count, size, and placement)
+- 5 floors × 3 scenes each = 15 scenes to reach the final vault
+- Monsters and items scale with depth (see `docs/ROGUELIKE_DESIGN.md` floor table)
+
+### Chapter 10 — The Full Roguelike (`Phase10/`)
+
+**Concepts:** FOV radius algorithm, XP/levelling, LINQ over game state, full win condition.
+
+- Field of view: only tiles within lantern radius are visible
+- XP and level-up system (stat boosts on level)
+- Full Angband-style stat panel (HP, AC, ATK, DEF, XP, Gold, Depth)
+- Win: floor 5 scene 3 → Goddess's Vault → three riddles → Relic Chamber → endgame scene
+- Death: respawn at entrance, keep level/XP, lose gold
+
+> Design details for Chapters 6–10 (scene layout, screen format, monster roster, item list,
+> win path) are in `docs/ROGUELIKE_DESIGN.md`.
+
 ---
 
 ## Teaching Guidelines
