@@ -44,10 +44,9 @@ class Game
         }
     }
 
-    // Win: player is back in the Courtyard carrying the Polo Satchel.
+    // Win: the player has passed the guardian and reached the Caravan Heart.
     private bool IsWinCondition()
     {
-        return _player.CurrentRoom.Name == "Courtyard"
-            && _player.Inventory.Contains("Polo Satchel");
+        return _player.CurrentRoom.Name == "Caravan Heart";
     }
 }

@@ -19,11 +19,19 @@ static class Actions
 
         if (exit.IsLocked)
         {
-            // Auto-unlock if the player carries the right key.
-            if (exit.RequiredKey != null && HasMatchingKey(player, exit.RequiredKey))
+            KeyItem? key = exit.RequiredKey != null ? FindMatchingKey(player, exit.RequiredKey) : null;
+
+            if (key != null)
             {
+                // Auto-unlock if the player carries the right key.
                 exit.IsLocked = false;
-                Display.Message("The Brass Key turns smoothly in the lock. The door swings open.");
+                Display.Message($"The {key.Name} fits the lock. The way opens.");
+            }
+            else if (exit.RequiredKey == "guardian")
+            {
+                // No key opens this one — only the goddess's riddles do.
+                Display.Message("The goddess bars the way. \"Answer my riddles, traveler, and pass.\"");
+                return false;
             }
             else
             {
@@ -34,6 +42,17 @@ static class Actions
 
         player.MoveTo(exit.Destination);
         Display.Room(player.CurrentRoom);
+
+        // Entering the Hidden Shrine triggers the guardian encounter. The gate north
+        // to the Caravan Heart stays locked ("guardian") until the riddles are solved.
+        if (player.CurrentRoom.Name == "Hidden Shrine"
+            && player.CurrentRoom.Exits.TryGetValue("north", out var onward)
+            && onward.IsLocked && onward.RequiredKey == "guardian")
+        {
+            if (RiddleEncounter.Run())
+                onward.IsLocked = false;
+        }
+
         return true;
     }
 
@@ -56,17 +75,6 @@ static class Actions
         }
 
         Display.Message(item.Description);
-
-        // Examining the loose brick reveals the brass key.
-        if (item.Name.Equals("Loose Brick", StringComparison.OrdinalIgnoreCase))
-        {
-            var key = room.Items.FirstOrDefault(i => i.Name == "Brass Key");
-            if (key != null && !key.CanPickUp)
-            {
-                key.CanPickUp = true;
-                Display.Message("The Brass Key is now visible — you can take it.");
-            }
-        }
     }
 
     public static void Take(string noun, Player player)
@@ -147,6 +155,12 @@ static class Actions
 
     private static bool HasMatchingKey(Player player, string exitId)
     {
-        return player.Inventory.GetAll().OfType<KeyItem>().Any(k => k.UnlocksExitId == exitId);
+        return FindMatchingKey(player, exitId) != null;
+    }
+
+    // Return the carried KeyItem that opens this exit id, or null if we have none.
+    private static KeyItem? FindMatchingKey(Player player, string exitId)
+    {
+        return player.Inventory.GetAll().OfType<KeyItem>().FirstOrDefault(k => k.UnlocksExitId == exitId);
     }
 }

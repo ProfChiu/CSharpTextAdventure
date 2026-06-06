@@ -84,21 +84,21 @@ Geographic ladder: **Inn → Mountain Pass → Oasis Town → Desert Fortress �
 
 ## Milestone 4 — Phase 5 expansion: "The Caravan & the Guardian's Riddle" (goddess + endgame)
 *Built on the renamed full-architecture code (folders/namespaces, `Parser` + `Actions`, `Dictionary<string,Exit>` + `Exit`, `out` param, `static Display`, `Inventory`). Expand the world from 3 rooms to a full map and add the climax.*
-- [ ] Story: they finally reach the caravan's camp at a moonlit oasis — but the last path is barred by a radiant **goddess**, guardian of the road.
-- [ ] Rooms (size to fit): e.g. **Camp Edge (start) → Overturned Wagons → Camel Lines → Supply Tent → Moonlit Oasis → Watch Lookout → Hidden Shrine (GUARDIAN) → Caravan Heart (endgame scene)**.
-- [ ] Expand `WorldBuilder` to wire all rooms + locked exits via `Exit` objects.
-- [ ] Items/keys: Marco's Seal, Brass Lantern, Tent Key (`KeyItem`), Shrine Token (`KeyItem` to reach the goddess).
-- [ ] **Goddess riddle design (surprise reveal, no combat) — THREE riddles back-to-back:**
-  - [ ] Entering the Hidden Shrine triggers a surprise scene — the player expects danger; instead a beautiful goddess appears (ASCII art reveal).
-  - [ ] She poses **three riddles in sequence**; the game reads the player's typed answer to each.
-  - [ ] **Solving all three** opens the way to the Caravan Heart (the win). Getting them all is the victory condition.
-  - [ ] Handle via a small `Riddle` class (Question + accepted answers) and a `Riddle[]`/`List<Riddle>` the encounter steps through — a natural place to teach a class + a loop over objects.
-  - [ ] Compare answers case-insensitively; accept a few synonyms per riddle.
-  - [ ] Wrong answer → a gentle hint and let the player retry that same riddle (no loss, no death); only advance to the next riddle on a correct answer.
-  - [ ] After the third correct answer → she steps aside and blesses the journey.
-  - [ ] Lock the **three riddle texts + accepted answers** in this plan before building (proposal pending your sign-off).
-- [ ] **Endgame scene:** passing the goddess and reaching Caravan Heart prints a multi-line closing scene (ASCII art) reuniting with Marco Polo → game ends.
-- [ ] Confirm the full win path is reachable end-to-end.
+- [x] Story: they finally reach the caravan's camp at a moonlit oasis — but the last path is barred by a radiant **goddess**, guardian of the road.
+- [x] Rooms (size to fit): e.g. **Camp Edge (start) → Overturned Wagons → Camel Lines → Supply Tent → Moonlit Oasis → Watch Lookout → Hidden Shrine (GUARDIAN) → Caravan Heart (endgame scene)**.
+- [x] Expand `WorldBuilder` to wire all rooms + locked exits via `Exit` objects.
+- [x] Items/keys: Marco's Seal, Brass Lantern, Tent Key (`KeyItem`), Shrine Token (`KeyItem` to reach the goddess).
+- [x] **Goddess riddle design (surprise reveal, no combat) — THREE riddles back-to-back:**
+  - [x] Entering the Hidden Shrine triggers a surprise scene — the player expects danger; instead a beautiful goddess appears (ASCII art reveal).
+  - [x] She poses **three riddles in sequence**; the game reads the player's typed answer to each.
+  - [x] **Solving all three** opens the way to the Caravan Heart (the win). Getting them all is the victory condition.
+  - [x] Handle via a small `Riddle` class (Question + accepted answers) and a `Riddle[]`/`List<Riddle>` the encounter steps through — a natural place to teach a class + a loop over objects.
+  - [x] Compare answers case-insensitively; accept a few synonyms per riddle.
+  - [x] Wrong answer → a gentle hint and let the player retry that same riddle (no loss, no death); only advance to the next riddle on a correct answer.
+  - [x] After the third correct answer → she steps aside and blesses the journey.
+  - [x] Lock the **three riddle texts + accepted answers** in this plan before building (proposal pending your sign-off).
+- [x] **Endgame scene:** passing the goddess and reaching Caravan Heart prints a multi-line closing scene (ASCII art) reuniting with Marco Polo → game ends.
+- [x] Confirm the full win path is reachable end-to-end.
 
 ---
 
