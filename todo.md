@@ -70,15 +70,15 @@ Geographic ladder: **Inn → Mountain Pass → Oasis Town → Desert Fortress �
 ## Milestone 3 — NEW Phase 4: "The Desert Fortress"
 **Headline: inheritance (`KeyItem : Item`) + first separation of concerns (`static Display`).**
 *Flat `Phase4/` folder, single `Phase4` namespace, multiple files but no nested folders, `if/else` input, N/S/E/W fields.*
-- [ ] Story: the guide leads them to a customs fortress controlling the route; gates need keys/passes.
-- [ ] 8 rooms: **Gatehouse (start) → Guard Barracks → Customs Hall → Archive → Cistern → Inner Courtyard → Watchtower → Sally Port (win)**.
-- [ ] `KeyItem : Item` (NEW): adds `UnlocksExitId`, calls `: base(name, description, canPickUp: true)`.
-- [ ] Locked doors check for a **`KeyItem`** (by type), not a hardcoded room-name string.
-- [ ] `Display` class (NEW, **static**): every `Console.Write` moves here.
-- [ ] Carry forward Phase 3's `Item`(3 props) + `Inventory` class.
-- [ ] Key items: Iron Gate Key, Customs Seal, Captain's Pass; plus Ledger (examine clue), Lantern.
-- [ ] Win: collect the right passes, exit the Sally Port toward the caravan.
-- [ ] **Deferred:** namespaces/folders, `Parser`/`Actions` split, `Dictionary<string,Exit>` + `Exit` object, `out` params.
+- [x] Story: the guide leads them to a customs fortress controlling the route; gates need keys/passes.
+- [x] 8 rooms: **Gatehouse (start) → Guard Barracks → Customs Hall → Archive → Cistern → Inner Courtyard → Watchtower → Sally Port (win)**.
+- [x] `KeyItem : Item` (NEW): adds `UnlocksExitId`, calls `: base(name, description, canPickUp: true)`.
+- [x] Locked doors check for a **`KeyItem`** (by type), not a hardcoded room-name string.
+- [x] `Display` class (NEW, **static**): every `Console.Write` moves here (Inventory keeps its own, to avoid a name clash with the `Display` class).
+- [x] Carry forward Phase 3's `Item`(3 props) + `Inventory` class.
+- [x] Key items: Iron Gate Key, Customs Seal, Captain's Pass; plus Ledger (examine clue), Lantern.
+- [x] Win: collect the right passes, exit the Sally Port toward the caravan.
+- [x] **Deferred:** namespaces/folders, `Parser`/`Actions` split, `Dictionary<string,Exit>` + `Exit` object, `out` params.
 
 ---
 
