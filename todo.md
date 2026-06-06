@@ -103,12 +103,12 @@ Geographic ladder: **Inn → Mountain Pass → Oasis Town → Desert Fortress �
 ---
 
 ## Milestone 5 — Menu, docs, verification
-- [ ] `Program.cs`: rewrite the menu to list all 5 chapters with one-line descriptions + correct `case "1"`…`"5"` wiring.
-- [ ] `README.md`: update chapter table, project-layout tree, study path, and per-chapter "new concept" notes for all five.
-- [ ] (Optional) `docs/CURRICULUM.md`: capture the story arc + concept ladder for instructors.
-- [ ] Final `dotnet build` → 0 warnings / 0 errors.
-- [ ] Scripted playthrough of each chapter's win path to confirm it completes.
-- [ ] Commit per milestone on a feature branch; open PR.
+- [x] `Program.cs`: rewrite the menu to list all 5 chapters with one-line descriptions + correct `case "1"`…`"5"` wiring.
+- [x] `README.md`: update chapter table, project-layout tree, study path, and per-chapter "new concept" notes for all five.
+- [x] (Optional) `docs/CURRICULUM.md`: capture the story arc + concept ladder for instructors.
+- [x] Final `dotnet build` → 0 warnings / 0 errors.
+- [x] Scripted playthrough of each chapter's win path to confirm it completes. (Ch.1 is movement-only, no win.)
+- [x] Commit per milestone on a feature branch; open PR.
 
 ---
 

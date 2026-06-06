@@ -1,11 +1,12 @@
-Console.WriteLine("=== The Caravanserai — Learning Edition ===");
+Console.WriteLine("=== The Silk Road — A C# Learning Adventure (1271 AD) ===");
 Console.WriteLine();
+Console.WriteLine("Each chapter is self-contained and playable on its own.");
 Console.WriteLine("Choose a chapter:");
-Console.WriteLine("  1 - Chapter 1: Rooms & Movement      (4 files, ~110 lines)");
-Console.WriteLine("  2 - Chapter 2: Items & Inventory     (5 files, ~270 lines)");
-Console.WriteLine("  3 - Chapter 3: The Oasis Bazaar      (5 files, Inventory class + examine)");
-Console.WriteLine("  4 - Chapter 4: The Desert Fortress   (7 files, inheritance + static Display)");
-Console.WriteLine("  5 - Chapter 5: Full Adventure        (11 files, full architecture)");
+Console.WriteLine("  1 - The Caravanserai          classes & objects + the game loop");
+Console.WriteLine("  2 - The Mountain Pass         collections: List<Item>, take/drop");
+Console.WriteLine("  3 - The Oasis Bazaar          richer items + an Inventory class, examine");
+Console.WriteLine("  4 - The Desert Fortress       inheritance (KeyItem) + static Display");
+Console.WriteLine("  5 - The Caravan & the Riddle  full architecture + the guardian's riddle");
 Console.WriteLine();
 Console.Write("Enter 1, 2, 3, 4, or 5: ");
 
