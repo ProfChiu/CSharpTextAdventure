@@ -31,39 +31,39 @@ Geographic ladder: **Inn → Mountain Pass → Oasis Town → Desert Fortress �
 ---
 
 ## Milestone 0 — Rename current Phase 3 → Phase 5
-- [ ] `git mv Phase3/ Phase5/` (preserve history).
-- [ ] Rename namespaces `Phase3.*` → `Phase5.*` (`Engine`, `World`, `Items`, `Characters`, `UI`).
-- [ ] Update every `using Phase3.X` → `using Phase5.X`.
-- [ ] `GameRunner.cs`: `namespace Phase3` → `Phase5`.
-- [ ] `Program.cs`: menu `case "3" → Phase3.GameRunner` becomes `case "5" → Phase5.GameRunner`.
-- [ ] `dotnet build` clean before adding any new content.
+- [x] `git mv Phase3/ Phase5/` (preserve history).
+- [x] Rename namespaces `Phase3.*` → `Phase5.*` (`Engine`, `World`, `Items`, `Characters`, `UI`).
+- [x] Update every `using Phase3.X` → `using Phase5.X`.
+- [x] `GameRunner.cs`: `namespace Phase3` → `Phase5`.
+- [x] `Program.cs`: menu `case "3" → Phase3.GameRunner` becomes `case "5" → Phase5.GameRunner`.
+- [x] `dotnet build` clean before adding any new content.
 
 ---
 
 ## Milestone 1 — Phase 2 rework: "The Mountain Pass"
 *Keep the existing tech level (single file, `List` inventory, `if/else` input, N/S/E/W fields). Only expand the world & story.*
-- [ ] Story: opens just after Phase 1 — apprentice has the satchel, rides for the caravan, a storm/rockslide seals the pass.
-- [ ] Build 6 rooms in `Phase2`: **Caravanserai Gate (start) → Foothill Trail → Old Shrine → Ice Cave → Wind Ridge → Hidden Pass (exit/win)**.
-- [ ] Items (simple `Item(Name)`): Rope, Oil Lantern, Flint, Dried Figs, Fur Cloak.
-- [ ] Puzzle/lock: Wind Ridge → Hidden Pass requires carrying Fur Cloak **and** Rope (hardcoded check, Phase-2 style).
-- [ ] Win: reach Hidden Pass → hook into Phase 3.
-- [ ] Concepts unchanged: `List<Item>`, take/drop/inventory/look/go. **No** new syntax.
+- [x] Story: opens just after Phase 1 — apprentice has the satchel, rides for the caravan, a storm/rockslide seals the pass.
+- [x] Build 6 rooms in `Phase2`: **Caravanserai Gate (start) → Foothill Trail → Old Shrine → Ice Cave → Wind Ridge → Hidden Pass (exit/win)**.
+- [x] Items (simple `Item(Name)`): Rope, Oil Lantern, Flint, Dried Figs, Fur Cloak.
+- [x] Puzzle/lock: Wind Ridge → Hidden Pass requires carrying Fur Cloak **and** Rope (hardcoded check, Phase-2 style).
+- [x] Win: reach Hidden Pass → hook into Phase 3.
+- [x] Concepts unchanged: `List<Item>`, take/drop/inventory/look/go. **No** new syntax.
 
 ---
 
 ## Milestone 2 — NEW Phase 3: "The Oasis Bazaar"
 **Headline: multiple properties on a class + an `Inventory` class that wraps a collection.**
 *Flat `Phase3/` folder, single `Phase3` namespace, `if/else` input, N/S/E/W fields.*
-- [ ] Story: apprentice descends to an oasis town and must barter to hire a desert guide.
-- [ ] 7 rooms: **Town Gate (start) → Market Square → Spice Stall → Carpet Weaver → Public Well → Stable → Guide's House (win)**.
-- [ ] `Item` expanded: `Name`, `Description`, `CanPickUp`.
-- [ ] `Inventory` class (NEW): wraps `List<Item>` with `Add` / `Remove` / `Find` / `Display`.
-- [ ] `Player` holds an `Inventory` object (not a raw list).
-- [ ] New command: `examine <item>` prints `Description`.
-- [ ] Use `CanPickUp = false` on fixtures (e.g., a Notice Board, the Public Well) so `take` refuses them.
-- [ ] Items: Silver Coin, Bolt of Silk, Water Skin, Brass Lamp (examine reveals a clue), Notice Board (fixed).
-- [ ] Win: trade Silk + Coin at the Guide's House to hire the guide.
-- [ ] **Deferred:** inheritance, `Dictionary`, namespaces/folders, separated Parser, `out` params.
+- [x] Story: apprentice descends to an oasis town and must barter to hire a desert guide.
+- [x] 7 rooms: **Town Gate (start) → Market Square → Spice Stall → Carpet Weaver → Public Well → Stable → Guide's House (win)**.
+- [x] `Item` expanded: `Name`, `Description`, `CanPickUp`.
+- [x] `Inventory` class (NEW): wraps `List<Item>` with `Add` / `Remove` / `Find` / `Display`.
+- [x] `Player` holds an `Inventory` object (not a raw list).
+- [x] New command: `examine <item>` prints `Description`.
+- [x] Use `CanPickUp = false` on fixtures (e.g., a Notice Board, the Public Well) so `take` refuses them.
+- [x] Items: Silver Coin, Bolt of Silk, Water Skin, Brass Lamp (examine reveals a clue), Notice Board (fixed).
+- [x] Win: trade Silk + Coin at the Guide's House to hire the guide.
+- [x] **Deferred:** inheritance, `Dictionary`, namespaces/folders, separated Parser, `out` params.
 
 ---
 

@@ -4,36 +4,66 @@ static class GameRunner
 {
     public static void Start()
     {
-        Room courtyard = new Room(
-            "Courtyard",
-            "A dusty open square under a darkening sky. A heavy wooden door leads south.",
-            "     ___\n    /   \\\n   (  ~  )\n    \\___/\n  __|   |__"
+        // Geographic leg 2: the trail up the mountain, ending at the Hidden Pass.
+        // Caravanserai Gate -> Foothill Trail -> Old Shrine -> Wind Ridge -> Hidden Pass,
+        // with the Ice Cave as a side branch off the Foothill Trail.
+        Room gate = new Room(
+            "Caravanserai Gate",
+            "Dawn at the inn gate. The Polo Satchel is slung over your shoulder and the\ncaravan is a day ahead. The trail climbs north into the mountains.",
+            "   /\\  /\\\n  /__\\/__\\\n  |  ||  |\n  |[]||[]|"
         );
 
-        Room tradeHall = new Room(
-            "Trade Hall",
-            "A long vaulted hall lit by a single oil lamp. Exits: north, south.",
-            "      |\n    -----\n   /     \\\n  O       O\n    scale"
+        Room trail = new Room(
+            "Foothill Trail",
+            "A stony switchback path. Loose scree slides underfoot. The trail bends north,\nand a dark opening yawns to the east.",
+            "    /\\\n   /  \\__\n  /      \\\n_/        \\_"
         );
 
-        Room vault = new Room(
-            "Merchant's Vault",
-            "A small cedar-shelved chamber. A leather satchel sits on the table.",
-            "  .-------.\n  |[lock] |\n  |_______|\n  |  $ $  |\n  `-------'"
+        Room iceCave = new Room(
+            "Ice Cave",
+            "A frozen hollow in the rock. Your breath fogs. Something heavy and warm is\nfolded on a ledge. The only way out is back west.",
+            "  __________\n /  *  ..  * \\\n|  .  ICE  . |\n \\__________/"
         );
 
-        courtyard.South = tradeHall;
-        tradeHall.North = courtyard;
-        tradeHall.South = vault;
-        vault.North     = tradeHall;
+        Room shrine = new Room(
+            "Old Shrine",
+            "A weathered roadside shrine, half-buried in snow. Travelers before you left\nofferings. The path continues north.",
+            "    _i_\n   |___|\n   |   |\n  _|   |_"
+        );
 
-        // Place items in rooms
-        Item brassKey    = new Item("Brass Key");
-        Item poloSatchel = new Item("Polo Satchel");
-        tradeHall.Items.Add(brassKey);
-        vault.Items.Add(poloSatchel);
+        Room ridge = new Room(
+            "Wind Ridge",
+            "A knife-edge ridge scoured by howling wind. The cold cuts to the bone. A narrow\ngap leads north toward the pass — but the wind would tear you off the edge.",
+            "  /\\    /\\\n /  \\/\\/  \\\n/   wind   \\"
+        );
 
-        Player player = new Player(courtyard);
+        Room hiddenPass = new Room(
+            "Hidden Pass",
+            "A sheltered cleft between the peaks — the way through the mountains.",
+            "   ____________\n  /  the pass  \\\n /______________\\"
+        );
+
+        // Wire the world (N/S/E/W fields, Phase-2 style).
+        gate.North   = trail;
+        trail.South   = gate;
+        trail.North   = shrine;
+        trail.East    = iceCave;
+        iceCave.West  = trail;
+        shrine.South  = trail;
+        shrine.North  = ridge;
+        ridge.South   = shrine;
+        ridge.North   = hiddenPass;
+        hiddenPass.South = ridge;
+
+        // Scatter supplies along the trail. The Fur Cloak hides in the side cave,
+        // so the player must explore east before they can cross the ridge.
+        gate.Items.Add(new Item("Dried Figs"));
+        trail.Items.Add(new Item("Oil Lantern"));
+        iceCave.Items.Add(new Item("Fur Cloak"));
+        shrine.Items.Add(new Item("Flint"));
+        ridge.Items.Add(new Item("Rope"));
+
+        Player player = new Player(gate);
         new Game(player).Run();
     }
 }
@@ -49,7 +79,8 @@ class Game
 
     public void Run()
     {
-        Console.WriteLine("=== Chapter 2: Items & Inventory ===");
+        Console.WriteLine("=== Chapter 2: The Mountain Pass ===");
+        Console.WriteLine("A storm has sealed the high road. Gather what you need and cross the pass.");
         Console.WriteLine("Commands: go <dir> / take <item> / drop <item> / inventory / look / quit");
         PrintRoom();
 
@@ -101,37 +132,32 @@ class Game
             return;
         }
 
-        // Locked door: Trade Hall -> Vault requires the Brass Key
-        if (_player.CurrentRoom.Name == "Trade Hall" && direction == "south")
+        // Locked crossing: Wind Ridge -> Hidden Pass needs BOTH the Fur Cloak (warmth)
+        // and the Rope (to lash yourself against the wind). Hard-coded by room name,
+        // Phase-2 style. "What if there were 20 locked doors?" -> see later chapters.
+        if (_player.CurrentRoom.Name == "Wind Ridge" && direction == "north")
         {
-            bool hasKey = false;
-            foreach (Item item in _player.Inventory)
+            if (!CarryingItem("Fur Cloak") || !CarryingItem("Rope"))
             {
-                if (item.Name == "Brass Key")
-                {
-                    hasKey = true;
-                    break;
-                }
-            }
-
-            if (!hasKey)
-            {
-                Console.WriteLine("The vault door is locked. You need a key.");
+                Console.WriteLine("The wind shrieks across the gap. Without the Fur Cloak to keep warm");
+                Console.WriteLine("and the Rope to anchor yourself, crossing here would be death.");
                 return;
             }
-            Console.WriteLine("You use the Brass Key. The vault door swings open.");
+            Console.WriteLine("Wrapped in the Fur Cloak and lashed to the rock by the Rope, you inch");
+            Console.WriteLine("across the gap into the shelter of the pass.");
         }
 
         _player.CurrentRoom = next;
         PrintRoom();
 
-        // Win: back in Courtyard carrying the Polo Satchel
-        if (_player.CurrentRoom.Name == "Courtyard" && CarryingItem("Polo Satchel"))
+        // Win: you've reached the Hidden Pass and broken through the mountains.
+        if (_player.CurrentRoom.Name == "Hidden Pass")
         {
             Console.WriteLine();
-            Console.WriteLine("You step into the courtyard clutching the Polo Satchel.");
-            Console.WriteLine("The caravan bells ring. You made it!");
-            Console.WriteLine("CONGRATULATIONS!");
+            Console.WriteLine("You stagger into the Hidden Pass. The wind falls away behind you.");
+            Console.WriteLine("Below, the mountains open onto the green of an oasis town —");
+            Console.WriteLine("and somewhere down there, the caravan's trail grows warm again.");
+            Console.WriteLine("CONGRATULATIONS! On to Chapter 3: The Oasis Bazaar.");
             Environment.Exit(0);
         }
     }
